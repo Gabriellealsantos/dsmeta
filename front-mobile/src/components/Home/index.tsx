@@ -17,25 +17,24 @@ export default function Home() {
   return (
     <View style={styles.container}>
       {/* Cabeçalho da página, com título 'Home' */}
-      <Header title='Home'/>
-      
+      <Header title='Home' />
+
       {/* Conteúdo principal centralizado na tela */}
       <View style={styles.content}>
-        
-        {/* Botão com gradiente de fundo que leva para a lista de vendas */}
+
         <LinearGradient
-          colors={['#2A0944', '#5A189A']} // Cores do gradiente
-          style={[styles.button, styles.listButton]} // Aplica os estilos do botão
-          start={{ x: 0, y: 0 }} // Início do gradiente (esquerda)
-          end={{ x: 1, y: 0 }}   // Fim do gradiente (direita)
-        >
-          {/* Área tocável do botão */}
-          <TouchableOpacity
-            onPress={() => navigation.navigate('VendasList')} // Ação de navegação
-            style={styles.touchableArea}
-          >
-            <Text style={styles.buttonText}>Listar Vendas</Text> {/* Texto do botão */}
-          </TouchableOpacity>
+          colors={['#2A0944', '#5A189A']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}   
+          style={[styles.button, styles.listButton]}>
+          {(
+            <TouchableOpacity
+              onPress={() => navigation.navigate('VendasList')}
+              style={styles.touchableArea}
+            >
+              <Text style={styles.buttonText}>Listar Vendas</Text>
+            </TouchableOpacity>
+          )}
         </LinearGradient>
       </View>
     </View>

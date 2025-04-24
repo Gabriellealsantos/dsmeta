@@ -8,7 +8,6 @@ import { formatDate, formatPriece } from '../../utils/helpers';
 import { SaleDTO } from '../../types/SaleDTO';
 import { fetchSales } from '../../services/sale-service';
 
-// Interface representando uma venda que será exibida na lista
 interface Venda {
   id: number;
   data: Date;
@@ -18,30 +17,36 @@ interface Venda {
   total: number;
 }
 
-// Tipo da prop de navegação usada na tela
 type NavigationProps = NativeStackNavigationProp<RootStackParamList, 'VendasList'>;
 
 export default function VendasList() {
   const navigation = useNavigation<NavigationProps>();
 
-  // Estado que guarda a lista de vendas
   const [vendas, setVendas] = useState<Venda[]>([]);
-
-  // Estado para controlar o carregamento (loading)
-  const [loading, setLoading] = useState(true);
-
-  // Estado para controlar se houve erro
   const [error, setError] = useState('');
 
-  // useEffect é executado uma vez quando o componente é montado
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+
   useEffect(() => {
-    loadSales();
+    loadSales(0);
   }, []);
 
-  // Função que busca as vendas na API e atualiza os estados
-  const loadSales = async () => {
+  const loadSales = async (pageNumber = 0) => {
+    // não carrega se não houver mais ou já estiver carregando páginas extras
+    if ((!hasMore && pageNumber !== 0) || loadingMore) return;
+
     try {
-      const response = await fetchSales(); // Chamada para API
+      if (pageNumber === 0) {
+        setInitialLoading(true);
+      } else {
+        setLoadingMore(true);
+      }
+
+      const response = await fetchSales(pageNumber);
       const salesData = response.data.content.map((sale: SaleDTO) => ({
         id: sale.id,
         data: new Date(sale.date),
@@ -50,20 +55,47 @@ export default function VendasList() {
         vendas: sale.deals,
         total: sale.amount
       }));
-      setVendas(salesData); // Atualiza a lista com os dados da API
+
+      if (pageNumber === 0) {
+        setVendas(salesData);
+      } else {
+        setVendas(prev => [...prev, ...salesData]);
+      }
+
+      setHasMore(!response.data.last);
+      setPage(pageNumber);
     } catch (err) {
-      setError('Erro ao carregar vendas'); // Se der erro, atualiza o estado de erro
       console.error(err);
+      setError('Erro ao carregar vendas');
     } finally {
-      setLoading(false); // Finaliza o loading em qualquer situação
+      setInitialLoading(false);
+      setLoadingMore(false);
     }
   };
 
-  // Função que renderiza cada item da lista
+  // Splash inicial
+  if (initialLoading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#5A189A" />
+      </View>
+    );
+  }
+
+  // Erro
+  if (error) {
+    return (
+      <View style={styles.container}>
+        <Header title="Vendas" showBackButton />
+        <Text style={styles.errorText}>{error}</Text>
+      </View>
+    );
+  }
+
   const renderItem = ({ item }: { item: Venda }) => (
     <TouchableOpacity
       style={styles.row}
-      onPress={() => navigation.navigate('VendaDetail', { vendaId: item.id })} // Navega para a tela de detalhes
+      onPress={() => navigation.navigate('VendaDetail', { vendaId: item.id })}
     >
       <Text style={styles.cell}>{item.id}</Text>
       <Text style={styles.cell}>{formatDate(item.data)}</Text>
@@ -73,56 +105,37 @@ export default function VendasList() {
     </TouchableOpacity>
   );
 
-  // Exibe o indicador de carregamento enquanto os dados estão sendo buscados
-  if (loading) return <Loading />;
-
-  // Exibe mensagem de erro caso tenha falhado ao buscar os dados
-  if (error) return <Error message={error} />;
+  const renderHeader = () => (
+    <View style={[styles.row, styles.headerRow]}>
+      <Text style={styles.headerCell}>ID</Text>
+      <Text style={styles.headerCell}>Data</Text>
+      <Text style={styles.headerCell}>Vendedor</Text>
+      <Text style={styles.headerCell}>Vendas</Text>
+      <Text style={styles.headerCell}>Total</Text>
+    </View>
+  );
 
   return (
     <View style={styles.container}>
       <Header title="Vendas" showBackButton />
 
-      {/* FlatList para exibir os dados em lista vertical */}
       <FlatList
-        data={vendas} // Lista de dados
-        keyExtractor={(item) => item.id.toString()} // Gera chave única
-        renderItem={renderItem} // Função que renderiza cada item
-        ListHeaderComponent={
-          // Cabeçalho da tabela
-          <View style={[styles.row, styles.headerRow]}>
-            <Text style={styles.headerCell}>ID</Text>
-            <Text style={styles.headerCell}>Data</Text>
-            <Text style={styles.headerCell}>Vendedor</Text>
-            <Text style={styles.headerCell}>Vendas</Text>
-            <Text style={styles.headerCell}>Total</Text>
-          </View>
+        data={vendas}
+        keyExtractor={item => item.id.toString()}
+        renderItem={renderItem}
+        ListHeaderComponent={renderHeader}
+        onEndReached={() => loadSales(page + 1)}
+        onEndReachedThreshold={0.10}
+        ListFooterComponent={
+          loadingMore
+            ? <ActivityIndicator style={{ marginVertical: 16 }} color="#fff" />
+            : null
         }
       />
     </View>
   );
 }
 
-// Componente para mostrar carregando (loading)
-function Loading() {
-  return (
-    <View style={styles.loadingContainer}>
-      <ActivityIndicator size="large" color="#5A189A" />
-    </View>
-  );
-}
-
-// Componente que mostra erro caso a requisição falhe
-function Error({ message }: { message: string }) {
-  return (
-    <View style={styles.container}>
-      <Header title="Vendas" showBackButton />
-      <Text style={styles.errorText}>{message}</Text>
-    </View>
-  );
-}
-
-// Estilização usando StyleSheet
 const styles = StyleSheet.create({
   loadingContainer: {
     flex: 1,

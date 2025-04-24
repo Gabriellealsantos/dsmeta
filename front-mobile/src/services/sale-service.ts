@@ -1,5 +1,9 @@
 import { requestBackend } from "../utils/requests";
 
-export function fetchSales() {
-    return requestBackend({ url: '/sales' });
+export function fetchSales(page: number, size: number = 10) {
+    return requestBackend({
+        url: `/sales`,
+        method: 'GET',
+        params: { page, size, sort: 'amount,desc' }
+    });
 }

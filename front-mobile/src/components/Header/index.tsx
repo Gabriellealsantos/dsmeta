@@ -6,40 +6,34 @@ import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../types/RootStackParamList';
 import { StackNavigationProp } from '@react-navigation/stack';
 
-// Interface para definir as propriedades que o Header pode receber
 interface HeaderProps {
-    title: string;              // Título a ser exibido no cabeçalho
-    showBackButton?: boolean;  // Indica se o botão de voltar deve ser mostrado (opcional)
+    title: string;             
+    showBackButton?: boolean;  
 }
 
-// Tipagem para navegação na tela Home (usada no botão de voltar)
+
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
-// Componente funcional Header
 export default function Header({ title, showBackButton = false }: HeaderProps) {
-    // Hook que retorna o objeto de navegação tipado
     const navigation = useNavigation<HomeScreenNavigationProp>();
 
     return (
-        // Gradiente como fundo do header
         <LinearGradient
-            colors={['#2A0944', '#5A189A']} // Cores do gradiente
+            colors={['#2A0944', '#5A189A']} 
             style={styles.container}
-            start={{ x: 0, y: 0 }} // Começo do gradiente
-            end={{ x: 1, y: 0 }}   // Fim do gradiente
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }} 
         >
             <View style={styles.headerContent}>
-                {/* Renderiza o botão de voltar se showBackButton for true */}
                 {showBackButton && (
                     <TouchableOpacity 
                         style={styles.iconButton}
-                        onPress={() => navigation.goBack()} // Volta para a tela anterior
+                        onPress={() => navigation.goBack()} 
                     >
                         <Ionicons name="arrow-back" size={24} color="#FFF" />
                     </TouchableOpacity>
                 )}
 
-                {/* Centraliza o título no header */}
                 <View style={styles.titleContainer}>
                     <Text style={styles.title}>{title}</Text>
                 </View>
@@ -72,18 +66,18 @@ const styles = StyleSheet.create({
         fontSize: 22,
         fontWeight: '700',
         color: '#FFF',
-        letterSpacing: 1.2, // Espaçamento entre letras
-        textShadowColor: 'rgba(0, 0, 0, 0.3)', // Sombra leve para o texto
+        letterSpacing: 1.2, 
+        textShadowColor: 'rgba(0, 0, 0, 0.3)',
         textShadowOffset: { width: 1, height: 1 },
         textShadowRadius: 2,
     },
     iconButton: {
         width: 40,
         height: 40,
-        borderRadius: 20, // Botão circular
-        backgroundColor: 'rgba(255, 255, 255, 0.1)', // Fundo levemente visível
+        borderRadius: 20,
+        backgroundColor: 'rgba(255, 255, 255, 0.1)', 
         justifyContent: 'center',
         alignItems: 'center',
-        zIndex: 1, // Garante que o botão fique acima do título centralizado
+        zIndex: 1, 
     },
 });
