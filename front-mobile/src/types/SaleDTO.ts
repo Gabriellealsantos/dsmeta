@@ -4,5 +4,5 @@ export type SaleDTO = {
     visited: number,
     deals: number,
     amount: number,
-    date: Date
+    date: string
 }

@@ -1,28 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
-import Header from '../Header';
+import { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../types/RootStackParamList';
-import { formatDate, formatPriece } from '../../utils/helpers';
-import { SaleDTO } from '../../types/SaleDTO';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, Platform, StyleSheet, Text, View } from 'react-native';
 import { fetchSales } from '../../services/sale-service';
-
-interface Venda {
-  id: number;
-  data: Date;
-  vendedor: string;
-  visitas: number;
-  vendas: number;
-  total: number;
-}
+import { RootStackParamList } from '../../types/RootStackParamList';
+import { SaleDTO } from '../../types/SaleDTO';
+import Header from '../Header';
+import SalesFilter from '../SalesFilter';
+import SalesList from '../SalesList';
 
 type NavigationProps = NativeStackNavigationProp<RootStackParamList, 'VendasList'>;
 
 export default function VendasList() {
   const navigation = useNavigation<NavigationProps>();
 
-  const [vendas, setVendas] = useState<Venda[]>([]);
+  const [vendas, setVendas] = useState<SaleDTO[]>([]);
   const [error, setError] = useState('');
 
   const [page, setPage] = useState(0);
@@ -31,29 +24,47 @@ export default function VendasList() {
   const [initialLoading, setInitialLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
 
+  const [totalItems, setTotalItems] = useState(0);
+
+  const [minDate, setMinDate] = useState('');
+  const [maxDate, setMaxDate] = useState('');
+  const [name, setName] = useState('');
+
   useEffect(() => {
-    loadSales(0);
-  }, []);
+    const delayDebounceFn = setTimeout(() => {
+      setPage(0);
+      setHasMore(true);
+      loadSales(0);
+    }, 500);
+
+    return () => clearTimeout(delayDebounceFn); // limpa o timeout anterior
+  }, [name]);
 
   const loadSales = async (pageNumber = 0) => {
-    // não carrega se não houver mais ou já estiver carregando páginas extras
-    if ((!hasMore && pageNumber !== 0) || loadingMore) return;
+    if (loadingMore || (pageNumber !== 0 && !hasMore)) return;
 
     try {
-      if (pageNumber === 0) {
-        setInitialLoading(true);
+      if (pageNumber === 0 && vendas.length === 0) {
+        setInitialLoading(true); // Só mostra splash se for a primeira carga de fato
       } else {
         setLoadingMore(true);
       }
 
-      const response = await fetchSales(pageNumber);
+      const response = await fetchSales({
+        page: pageNumber,
+        size: 10,
+        minDate,
+        maxDate,
+        name
+      });
+
       const salesData = response.data.content.map((sale: SaleDTO) => ({
         id: sale.id,
-        data: new Date(sale.date),
-        vendedor: sale.sellerName,
-        visitas: sale.visited,
-        vendas: sale.deals,
-        total: sale.amount
+        sellerName: sale.sellerName,
+        visited: sale.visited,
+        deals: sale.deals,
+        amount: sale.amount,
+        date: new Date(sale.date),
       }));
 
       if (pageNumber === 0) {
@@ -62,8 +73,9 @@ export default function VendasList() {
         setVendas(prev => [...prev, ...salesData]);
       }
 
-      setHasMore(!response.data.last);
-      setPage(pageNumber);
+      setHasMore(!response.data.last); // Corrige aqui
+      setPage(pageNumber); // Atualiza a página atual
+      setTotalItems(response.data.totalElements);
     } catch (err) {
       console.error(err);
       setError('Erro ao carregar vendas');
@@ -92,46 +104,35 @@ export default function VendasList() {
     );
   }
 
-  const renderItem = ({ item }: { item: Venda }) => (
-    <TouchableOpacity
-      style={styles.row}
-      onPress={() => navigation.navigate('VendaDetail', { vendaId: item.id })}
-    >
-      <Text style={styles.cell}>{item.id}</Text>
-      <Text style={styles.cell}>{formatDate(item.data)}</Text>
-      <Text style={styles.cell}>{item.vendedor}</Text>
-      <Text style={styles.cell}>{item.vendas}</Text>
-      <Text style={styles.cell}>{formatPriece(item.total)}</Text>
-    </TouchableOpacity>
-  );
-
-  const renderHeader = () => (
-    <View style={[styles.row, styles.headerRow]}>
-      <Text style={styles.headerCell}>ID</Text>
-      <Text style={styles.headerCell}>Data</Text>
-      <Text style={styles.headerCell}>Vendedor</Text>
-      <Text style={styles.headerCell}>Vendas</Text>
-      <Text style={styles.headerCell}>Total</Text>
-    </View>
-  );
+  const handleFilter = () => {
+    setPage(0);
+    setHasMore(true);
+    loadSales(0);
+  };
 
   return (
     <View style={styles.container}>
       <Header title="Vendas" showBackButton />
 
-      <FlatList
-        data={vendas}
-        keyExtractor={item => item.id.toString()}
-        renderItem={renderItem}
-        ListHeaderComponent={renderHeader}
-        onEndReached={() => loadSales(page + 1)}
-        onEndReachedThreshold={0.10}
-        ListFooterComponent={
-          loadingMore
-            ? <ActivityIndicator style={{ marginVertical: 16 }} color="#fff" />
-            : null
-        }
+      <SalesFilter
+        minDate={minDate}
+        maxDate={maxDate}
+        name={name}
+        setMinDate={setMinDate}
+        setMaxDate={setMaxDate}
+        setName={setName}
+        onFilter={handleFilter}
       />
+
+      <SalesList
+        sales={vendas}
+        totalItems={totalItems}
+        loadingMore={loadingMore}
+        onEndReached={() => loadSales(page + 1)}
+        onPressItem={(id) => navigation.navigate('VendaDetail', { vendaId: id })}
+      />
+
+      {loadingMore && <ActivityIndicator style={{ marginVertical: 16 }} color="#fff" />}
     </View>
   );
 }
@@ -186,5 +187,45 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#FFF',
     textAlign: 'center',
+  },
+  input: {
+    backgroundColor: '#fff',
+    color: '#000',
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    marginVertical: 4,
+    width: '100%',
+  },
+  button: {
+    backgroundColor: '#5A189A',
+    paddingVertical: 10,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginTop: 8,
+  },
+  buttonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  filterContainer: {
+    paddingHorizontal: 10,
+  },
+  counterContainer: {
+    padding: 10,
+    alignItems: 'center',
+    backgroundColor: '#3B185F',
+    marginHorizontal: 10,
+    borderRadius: 8,
+    marginTop: 8,
+  },
+  counterText: {
+    color: '#FFF',
+    fontSize: 14,
+  },
+  allItemsText: {
+    color: '#4CAF50',
+    fontSize: 14,
+    marginTop: 4,
   },
 });
