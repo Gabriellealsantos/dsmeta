@@ -1,4 +1,3 @@
-// components/SalesList.tsx
 import React from 'react';
 import { View, Text, FlatList, ActivityIndicator, StyleSheet } from 'react-native';
 import SalesItem from '../SalesItem/index';
@@ -9,12 +8,12 @@ type Props = {
   totalItems: number;
   loadingMore: boolean;
   onEndReached: () => void;
-  onPressItem: (id: number) => void;
+  onPressItem: (sale: SaleDTO) => void;
 };
 
 export default function SalesList({ sales, totalItems, loadingMore, onEndReached, onPressItem }: Props) {
   const renderItem = ({ item }: { item: SaleDTO }) => (
-    <SalesItem sale={item} onPress={() => onPressItem(item.id)} />
+    <SalesItem sale={item} onPress={() => onPressItem(item)} />
   );
 
   const renderHeader = () => (

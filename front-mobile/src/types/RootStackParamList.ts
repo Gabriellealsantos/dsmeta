@@ -1,7 +1,9 @@
+import { SaleDTO } from "./SaleDTO";
+
 export type RootStackParamList = {
     Home: undefined;
     VendasList: undefined;
     RegisterSale: undefined;
     ManageSales: undefined;
-    VendaDetail: { vendaId: number };
+    SalesItemDetail: { sale: SaleDTO  };
 };

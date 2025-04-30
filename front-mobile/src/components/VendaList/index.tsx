@@ -128,7 +128,7 @@ export default function VendasList() {
         totalItems={totalItems}
         loadingMore={loadingMore}
         onEndReached={() => loadSales(page + 1)}
-        onPressItem={(id) => navigation.navigate('VendaDetail', { vendaId: id })}
+        onPressItem={(sale) => navigation.navigate('SalesItemDetail', { sale })}
       />
 
       {loadingMore && <ActivityIndicator style={{ marginVertical: 16 }} color="#fff" />}

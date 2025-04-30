@@ -1,14 +1,15 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Home from "../components/Home";
-import VendaDetail from "../components/VendaDetail";
+import SalesItemDetail from "../components/SalesItemDetail";
 import VendasList from "../components/VendaList";
+import { SaleDTO } from "../types/SaleDTO";
 
 // Cria a instância do Stack Navigator
 const Stack = createStackNavigator<{
   Home: undefined;
   VendasList: undefined;
-  VendaDetail: { vendaId: number };
+  SalesItemDetail: { sale: SaleDTO };
 }>();
 
 export default function Routes() {
@@ -34,10 +35,10 @@ export default function Routes() {
           component={VendasList}
         />
         <Stack.Screen
-          name="VendaDetail"
-          component={VendaDetail}
-          // Se a tela VendaDetail espera um parâmetro, 
-          // já está tipado lá em RootStackParamList
+          name="SalesItemDetail"
+          component={SalesItemDetail}
+        // Se a tela VendaDetail espera um parâmetro, 
+        // já está tipado lá em RootStackParamList
         />
       </Stack.Navigator>
     </NavigationContainer>
