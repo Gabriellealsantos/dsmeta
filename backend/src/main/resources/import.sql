@@ -1,39 +1,39 @@
-INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Barry Allen',121,67,18196.0,'2025-06-16');
-INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Logan',26,14,4255.0,'2024-06-14');
-INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Padme',55,42,13249.0,'2024-06-14');
-INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Padme',73,65,20751.0,'2024-06-10');
-INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Logan',47,25,7318.0,'2024-06-04');
-INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Kal-El',72,60,15608.0,'2024-06-03');
-INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Kal-El',97,68,8901.0,'2024-06-03');
-INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Anakin',68,26,13231.0,'2024-06-02');
-INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Barry Allen',73,53,19476.0,'2024-05-22');
-INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Kal-El',28,23,20530.0,'2024-05-18');
-INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Logan',83,44,4864.0,'2024-05-13');
-INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Barry Allen',82,43,21753.0,'2024-05-06');
-INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Logan',43,26,7362.0,'2024-05-03');
-INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Anakin',54,23,10549.0,'2024-04-28');
-INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Padme',125,84,13333.0,'2024-04-25');
-INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Logan',44,26,7431.0,'2025-04-23');
-INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Kal-El',46,25,21099.0,'2025-04-19');
-INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Kal-El',42,28,7217.0,'2025-04-19');
-INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Anakin',52,21,10107.0,'2025-04-18');
-INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Padme',121,90,18174.0,'2025-04-17');
-INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Logan',65,14,8095.0,'2025-04-12');
-INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Padme',107,74,11507.0,'2025-04-12');
-INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Barry Allen',140,74,11709.0,'2025-04-09');
-INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Kal-El',95,91,8288.0,'2025-04-08');
-INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Anakin',68,43,17016.0,'2025-04-07');
-INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Kal-El',21,20,17126.0,'2025-04-03');
-INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Logan',38,15,7957.0,'2025-03-31');
-INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Barry Allen',53,29,20903.0,'2025-03-29');
-INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Logan',19,10,3987.0,'2025-03-28');
-INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Anakin',78,34,20795.0,'2025-03-27');
-INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Logan',83,44,4938.0,'2025-03-26');
-INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Logan',32,12,6926.0,'2025-03-13');
-INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Logan',64,33,8193.0,'2025-03-13');
-INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Barry Allen',39,39,10557.0,'2025-03-05');
-INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Barry Allen',158,84,21601.0,'2022-03-02');
-INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Logan',12,6,7625.0,'2025-02-28');
+INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Barry Allen',121,67,18196.0,'2021-01-01');
+INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Logan',26,14,4255.0,'2022-01-01');
+INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Padme',55,42,13249.0,'2023-06-14');
+INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Padme',73,65,20751.0,'2023-06-10');
+INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Logan',47,25,7318.0,'2023-06-04');
+INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Kal-El',72,60,15608.0,'2023-06-03');
+INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Kal-El',97,68,8901.0,'2023-06-03');
+INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Anakin',68,26,13231.0,'2023-06-02');
+INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Barry Allen',73,53,19476.0,'2023-05-22');
+INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Kal-El',28,23,20530.0,'2023-05-18');
+INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Logan',83,44,4864.0,'2023-05-13');
+INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Barry Allen',82,43,21753.0,'2023-05-06');
+INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Logan',43,26,7362.0,'2023-05-03');
+INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Anakin',54,23,10549.0,'2023-04-28');
+INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Padme',125,84,13333.0,'2023-04-25');
+INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Logan',44,26,7431.0,'2023-04-23');
+INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Kal-El',46,25,21099.0,'2023-04-19');
+INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Kal-El',42,28,7217.0,'2023-04-19');
+INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Anakin',52,21,10107.0,'2023-04-18');
+INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Padme',121,90,18174.0,'2023-04-17');
+INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Logan',65,14,8095.0,'2023-04-12');
+INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Padme',107,74,11507.0,'2023-04-12');
+INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Barry Allen',140,74,11709.0,'2023-04-09');
+INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Kal-El',95,91,8288.0,'2023-04-08');
+INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Anakin',68,43,17016.0,'2023-04-07');
+INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Kal-El',21,20,17126.0,'2023-04-03');
+INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Logan',38,15,7957.0,'2023-03-31');
+INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Barry Allen',53,29,20903.0,'2023-03-29');
+INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Logan',19,10,3987.0,'2023-03-28');
+INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Anakin',78,34,20795.0,'2023-03-27');
+INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Logan',83,44,4938.0,'2023-03-26');
+INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Logan',32,12,6926.0,'2023-03-13');
+INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Logan',64,33,8193.0,'2023-03-13');
+INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Barry Allen',39,39,10557.0,'2023-03-05');
+INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Barry Allen',158,84,21601.0,'2023-03-02');
+INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Logan',12,6,7625.0,'2023-02-28');
 -- datas em Fevereiro e Janeiro → ano 2025
 INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Kal-El',142,81,13610.0,'2025-02-13');
 INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Padme',81,45,15306.0,'2025-02-08');
@@ -46,7 +46,6 @@ INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Barry 
 INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Kal-El',57,54,9126.0,'2025-01-12');
 INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Kal-El',78,60,5253.0,'2025-01-06');
 INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Padme',81,53,11553.0,'2025-01-04');
-
 -- datas em Dezembro e Novembro → ano 2024
 INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Kal-El',168,92,6299.0,'2024-12-28');
 INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Anakin',48,13,22411.0,'2024-12-26');
@@ -72,7 +71,6 @@ INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Anakin
 INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Anakin',53,29,17984.0,'2024-11-09');
 INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Logan',43,26,3056.0,'2024-11-08');
 INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Anakin',51,21,8624.0,'2024-11-06');
-
 -- restantes ajustados para os últimos 365 dias (23/04/2024 a 23/04/2025)
 INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Barry Allen',64,41,10959.0,'2024-11-03');
 INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Anakin',75,23,15883.0,'2024-10-30');
@@ -117,4 +115,3 @@ INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Padme'
 INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Kal-El',55,35,20474.0,'2024-07-05');
 INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Anakin',84,34,5787.0,'2024-07-01');
 INSERT INTO tb_sales (seller_name, visited, deals, amount, date) VALUES ('Padme',79,68,11976.0,'2024-06-27');
-

@@ -1,8 +1,7 @@
-import { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Platform, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { fetchSales } from '../../services/sale-service';
 import { RootStackParamList } from '../../types/RootStackParamList';
 import { SaleDTO } from '../../types/SaleDTO';
@@ -73,8 +72,8 @@ export default function VendasList() {
         setVendas(prev => [...prev, ...salesData]);
       }
 
-      setHasMore(!response.data.last); // Corrige aqui
-      setPage(pageNumber); // Atualiza a página atual
+      setHasMore(!response.data.last); 
+      setPage(pageNumber);
       setTotalItems(response.data.totalElements);
     } catch (err) {
       console.error(err);

@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
+import com.devsuperior.dsmeta.dto.SaleDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,15 +19,22 @@ public class SaleService {
 	@Autowired
 	private SaleRepository repository;
 
-	public Page<Sale> findSales(String minDate, String maxDate,Pageable pageable) {
-		
+	public Page<SaleDTO> findSales(String minDate, String maxDate, String name, Pageable pageable) {
 		LocalDate today = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());
-		
-		LocalDate min = minDate.equals("") ? today.minusDays(365) : LocalDate.parse(minDate);
-		LocalDate max = maxDate.equals("") ? today : LocalDate.parse(maxDate);
-		
-		
-		return repository.findSales(min, max, pageable);
+
+		LocalDate min = (minDate == null || minDate.isEmpty()) ? today.minusDays(10000) : LocalDate.parse(minDate);
+		LocalDate max = (maxDate == null || maxDate.isEmpty()) ? today : LocalDate.parse(maxDate);
+		String sellerName = (name == null) ? "" : name;
+
+		Page<Sale> sales = repository.findSales(min, max, sellerName, pageable);
+		return sales.map(sale -> new SaleDTO(
+				sale.getId(),
+				sale.getSellerName(),
+				sale.getVisited(),
+				sale.getDeals(),
+				sale.getAmount(),
+				sale.getDate()
+		));
 	}
 }
 
