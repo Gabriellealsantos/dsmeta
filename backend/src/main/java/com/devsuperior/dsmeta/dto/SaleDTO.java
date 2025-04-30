@@ -1,18 +1,34 @@
 package com.devsuperior.dsmeta.dto;
 
+import com.devsuperior.dsmeta.entities.Sale;
+
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 public class SaleDTO {
 
     private Long id;
-    private String sellerName;
-    private Integer visited;
-    private Integer deals;
-    private Double amount;
-    private LocalDate date;
 
-    public SaleDTO() {
-    }
+    @NotBlank
+    private String sellerName;
+
+    @NotNull
+    @Min(0)
+    private Integer visited;
+
+    @NotNull
+    @Min(0)
+    private Integer deals;
+
+    @NotNull
+    @DecimalMin("0.0")
+    private Double amount;
+
+    @NotNull
+    private LocalDate date;
 
     public SaleDTO(Long id, String sellerName, Integer visited, Integer deals, Double amount, LocalDate date) {
         this.id = id;
@@ -21,6 +37,15 @@ public class SaleDTO {
         this.deals = deals;
         this.amount = amount;
         this.date = date;
+    }
+
+    public SaleDTO(Sale entity) {
+        id = entity.getId();
+        sellerName = entity.getSellerName();
+        visited = entity.getVisited();
+        deals = entity.getDeals();
+        amount = entity.getAmount();
+        date = entity.getDate();
     }
 
     public Long getId() {

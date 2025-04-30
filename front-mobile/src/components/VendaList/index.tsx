@@ -1,6 +1,6 @@
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { fetchSales } from '../../services/sale-service';
 import { RootStackParamList } from '../../types/RootStackParamList';
@@ -12,6 +12,7 @@ import SalesList from '../SalesList';
 type NavigationProps = NativeStackNavigationProp<RootStackParamList, 'VendasList'>;
 
 export default function VendasList() {
+  
   const navigation = useNavigation<NavigationProps>();
 
   const [vendas, setVendas] = useState<SaleDTO[]>([]);
@@ -22,6 +23,8 @@ export default function VendasList() {
 
   const [initialLoading, setInitialLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
+  const [firstLoadDone, setFirstLoadDone] = useState(false);
+  const [isFirstRender, setIsFirstRender] = useState(true);
 
   const [totalItems, setTotalItems] = useState(0);
 
@@ -29,26 +32,39 @@ export default function VendasList() {
   const [maxDate, setMaxDate] = useState('');
   const [name, setName] = useState('');
 
-  useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
+ useEffect(() => {
+  if (isFirstRender) {
+    setIsFirstRender(false);
+    return;
+  }
+
+  const delayDebounceFn = setTimeout(() => {
+    setPage(0);
+    setHasMore(true);
+    loadSales(0);
+  }, 500);
+
+  return () => clearTimeout(delayDebounceFn);
+}, [name]);
+
+  useFocusEffect(
+    useCallback(() => {
       setPage(0);
       setHasMore(true);
       loadSales(0);
-    }, 500);
-
-    return () => clearTimeout(delayDebounceFn); // limpa o timeout anterior
-  }, [name]);
+    }, [minDate, maxDate])
+  );
 
   const loadSales = async (pageNumber = 0) => {
     if (loadingMore || (pageNumber !== 0 && !hasMore)) return;
-
+  
+    if (!firstLoadDone && pageNumber === 0) {
+      setInitialLoading(true);
+    } else {
+      setLoadingMore(true);
+    }
+  
     try {
-      if (pageNumber === 0 && vendas.length === 0) {
-        setInitialLoading(true); // Só mostra splash se for a primeira carga de fato
-      } else {
-        setLoadingMore(true);
-      }
-
       const response = await fetchSales({
         page: pageNumber,
         size: 10,
@@ -56,8 +72,8 @@ export default function VendasList() {
         maxDate,
         name
       });
-
-      const salesData = response.data.content.map((sale: SaleDTO) => ({
+  
+      const salesData: SaleDTO[] = response.data.content.map((sale: SaleDTO) => ({
         id: sale.id,
         sellerName: sale.sellerName,
         visited: sale.visited,
@@ -65,22 +81,29 @@ export default function VendasList() {
         amount: sale.amount,
         date: new Date(sale.date),
       }));
-
+  
+      // Evita setar a mesma lista vazia repetidamente
       if (pageNumber === 0) {
-        setVendas(salesData);
+        const isSame =
+          vendas.length === salesData.length &&
+          vendas.every((v, i) => v.id === salesData[i]?.id);
+  
+        if (!isSame) {
+          setVendas(salesData);
+        }
       } else {
         setVendas(prev => [...prev, ...salesData]);
       }
-
-      setHasMore(!response.data.last); 
+  
+      setHasMore(!response.data.last);
       setPage(pageNumber);
       setTotalItems(response.data.totalElements);
     } catch (err) {
-      console.error(err);
       setError('Erro ao carregar vendas');
     } finally {
       setInitialLoading(false);
       setLoadingMore(false);
+      setFirstLoadDone(true);
     }
   };
 

@@ -6,4 +6,5 @@ export type RootStackParamList = {
     RegisterSale: undefined;
     ManageSales: undefined;
     SalesItemDetail: { sale: SaleDTO  };
+    SalesEdit: { sale: SaleDTO, onSave?: (updated: SaleDTO) => void; };
 };
